@@ -32,7 +32,7 @@ export function MediaPanel() {
     ];
 
     return (
-        <>
+        <div>
             {exampleMedias.map(media => (
                 <ListElement 
                     key={media.title} 
@@ -40,6 +40,6 @@ export function MediaPanel() {
                     additionalInfo={media.additionalInfo} 
                 />
             ))}
-        </>
+        </div>
     );
 }

@@ -9,7 +9,7 @@ import { SettingsPanel } from './SettingsPanel';
 export function App() {
 	const [settingsOpen, setSettingsOpen] = useState(false);
 	return (
-		<div>
+		<div class="bg-slate-400">
 			<NavBar openSettings={(value) => {setSettingsOpen(value)}}></NavBar>
 			{settingsOpen ? <SettingsPanel/> : <MainPage/>}
 		</div>

@@ -1,7 +1,7 @@
 export function NumberInputField({label, value}: NumberInputFieldProps) {
-    return <div class="flex p-4 border-2 border-blue-800 rounded-md space-x-4">
-        <span>{label}</span>
-        <input type="number" value={value}/>
+    return <div class="flex justify-between items-center p-4 space-x-6 border-2 rounded-md bg-slate-900 border-slate-700">
+        <span>{label}:</span>
+        <input class="p-2 min-w-20 max-w-24 rounded-sm text-white placeholder-slate-200 text-right bg-gray-600" type="number" value={value}/>
     </div>
 }
 
