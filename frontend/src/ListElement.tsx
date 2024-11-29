@@ -1,9 +1,11 @@
 
-export function ListElement({title, additionalInfo}: ListElementProps) {
-    return <div class="flex justify-between m-2 p-3 space-x-8 bg-slate-900 border-slate-700 border-4 rounded-md">
-        <input class="flex-initial sm:w-5 lg:w-12" type="checkbox"/>
-        <span class="flex-1 overflow-hidden">{title}</span>
-        <span class="flex-initial lg:w-48 sm:w-24">{additionalInfo}</span>
+export function ListElement({ title, additionalInfo }: ListElementProps) {
+    return <div class="flex items-center m-2 p-3 space-x-4 bg-slate-900 border-slate-700 border-4 rounded-md">
+        <div class="flex-none w-8">
+            <input class="w-5 h-5" type="checkbox" />
+        </div>
+        <span class="flex-1 min-w-40 overflow-ellipsis">{title}</span>
+        <span class="flex-none w-fit">{additionalInfo}</span>
     </div>
 }
 

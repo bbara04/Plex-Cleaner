@@ -2,7 +2,7 @@ import logo from './assets/logo.png';
 import { IoIosSettings } from "react-icons/io";
 
 export function NavBar({ openSettings }: NavBarProps) {
-    return <nav class="flex px-8 bg-gray-900 text-white font-normal font-bold">
+    return <nav class="flex px-8 bg-gray-900 text-white font-bold">
         <img class="h-16 pt-2 pb-1 pr-8" src={logo} alt="logo" onClick={() => openSettings(false)}/>
         <div class="flex justify-center items-center space-x-8">
             <a class="" href="#" onClick={() => openSettings(false)}>Home</a>

@@ -12,11 +12,11 @@ export function CloseableActionPanel({onClose}: CloseablePanelProps) {
         <div class="flex flex-col p-4 space-y-4">
             <button class="bg-slate-400 text-black font-medium p-2 rounded-xl">
                 <MdSelectAll size="24px"/>
-                Select All
+                <span>Select All</span>
             </button>
             <button class="bg-slate-400 text-black font-medium p-2 rounded-xl">
                 <MdDeselect size="24px"/>
-                Deselect
+                <span>Deselect</span>
             </button>
         </div>
     </div>
