@@ -1,8 +1,8 @@
-import { Media } from ".";
+import { useState } from "preact/hooks";
 import { ListElement } from "./ListElement";
+import { useMediaContext } from "./MediaContext";
 
 function getLastWatched(lastWathced: string): string {
-    console.log(lastWathced);
     if (lastWathced == "0") {
         return "Today";
     }
@@ -12,20 +12,34 @@ function getLastWatched(lastWathced: string): string {
     return `${lastWathced} days ago`;
 };
 
-export function MediaPanel({ medias }: MediaPanelProps) {
+let forceRenderRef: () => void;
+
+export function MediaPanel() {
+    const [_, setForceRender] = useState(0);
+    forceRenderRef = () => setForceRender(n => n + 1);
+
+    const medias = useMediaContext();
+
     return (
         <div>
-            {medias.map(media => (
+            {medias.current
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(media => (
                 <ListElement
-                    key={media.id}
-                    title={media.title}
-                    additionalInfo={getLastWatched(media.last_watched)}
+                key={media.id}
+                title={media.title}
+                additionalInfo={getLastWatched(media.last_watched)}
+                checked={media.checked}
+                onClick={() => {
+                    media.checked = !media.checked
+                    forceReRenderMedia();
+                }}
                 />
             ))}
         </div>
     );
 }
 
-export type MediaPanelProps = {
-    medias: Media[];
-};
+export function forceReRenderMedia() {
+    forceRenderRef?.();
+}
