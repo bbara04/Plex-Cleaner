@@ -1,0 +1,27 @@
+{
+    "excluded_lines": [
+        "anime"
+    ],
+    "plex": {
+        "api": "7gnzjDLveU6htYPK2geq",
+        "port": 32400
+    },
+    "radarr": {
+        "api": "c349f3b312484de7bb1799006f08a96a",
+        "delete_after_days": "50",
+        "port": 7878
+    },
+    "server": {
+        "ip": "localhost",
+        "port": 5000
+    },
+    "sonarr": {
+        "api": "241b9ffdac3741a0a693d6a3fe224e46",
+        "delete_after_days": "30",
+        "port": 8989
+    },
+    "tautulli": {
+        "api": "ddc39a5cf5d347ab87c0e22df439088a",
+        "port": 8181
+    }
+}
