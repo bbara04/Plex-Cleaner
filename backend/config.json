@@ -8,16 +8,16 @@
     },
     "radarr": {
         "api": "c349f3b312484de7bb1799006f08a96a",
-        "delete_after_days": "50",
+        "delete_after_days": 20,
         "port": 7878
     },
     "server": {
-        "ip": "localhost",
-        "port": 5000
+        "ip": "192.168.1.163",
+        "port": "5000"
     },
     "sonarr": {
         "api": "241b9ffdac3741a0a693d6a3fe224e46",
-        "delete_after_days": "30",
+        "delete_after_days": 45,
         "port": 8989
     },
     "tautulli": {

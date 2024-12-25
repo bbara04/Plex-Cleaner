@@ -11,6 +11,18 @@ import { WaitingPanel } from "./WaitingPanel";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * A `SettingsPanel` komponens a konfigurációs beállítások kezelésére szolgál.
+ * 
+ * A panel betölti a konfigurációs adatokat egy API hívásból, lehetővé téve a felhasználók számára, hogy módosítsák azokat.
+ * A konfiguráció mentéséhez egy `saveConfig` függvényt biztosít, amely szinkronizálja az adatokat a backend rendszerrel.
+ * A panel tartalmazza a különböző beállításokat, mint a szerver IP címe, portja, valamint a Plex, Tautulli, Sonarr és Radarr szolgáltatások konfigurációs mezőit.
+ * 
+ * @param {Object} props - A komponens props objektuma.
+ * @param {Function} props.onClose - Függvény, amely bezárja a panelt, ha meghívásra kerül.
+ * 
+ * @returns {JSX.Element} A beállítások panel JSX eleme.
+ */
 export function SettingsPanel({ onClose }: { onClose: () => void }) {
 
     const config = useRef<Config>(null);
@@ -20,7 +32,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
     useEffect(() => {
         setLoading(true);
         const fetchConfig = () => {
-            axios.get("http://localhost:5000/api/config")
+            axios.get("/api/config")
                 .then((response) => {
                     config.current = response.data;
                 })
@@ -35,18 +47,26 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         fetchConfig();
     }, []);
 
+    // Ha az adatok betöltése folyamatban van
     if (loading) {
         return <div class="overflow-y-hidden h-screen">
             <WaitingPanel message="Loading..." />
         </div>
     }
 
+    // Ha hiba történt az adatok betöltése során
     if (error) {
         return <div class="overflow-y-hidden h-screen">
             <WaitingPanel message="Something went wrong..." color="#400709" />
         </div>
     }
 
+    /**
+     * Frissíti a konfigurációt a megadott elérési úton és értékkel.
+     * 
+     * @param {string} path - Az elérési út a konfigurációban, amely tartalmazza a frissítendő értéket.
+     * @param {any} value - Az új érték, amelyet a konfigurációba írunk.
+     */
     const handleConfigChange = (path: string, value: any) => {
         if (config.current) {
             const keys = path.split('.');
@@ -58,10 +78,13 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         }
     };
 
+    /**
+     * Mentés funkció, amely a módosított konfigurációt visszaküldi a backend rendszerbe.
+     */
     function saveConfig() {
         setLoading(true);
 
-        axios.put("http://localhost:5000/api/config", config.current)
+        axios.put("/api/config", config.current)
             .then((response) => {
                 toast.success("Config saved successfully!");
                 console.log(response);
@@ -107,10 +130,20 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                 transition={Bounce}
             />
         </div>
-
     );
 }
 
+/**
+ * A konfiguráció típusa, amely tartalmazza a szolgáltatások és szerverek beállításait.
+ * 
+ * @typedef {Object} Config
+ * @property {string[]} excluded_lines - Az elhagyott sorok listája.
+ * @property {Object} plex - Plex szolgáltatás beállításai.
+ * @property {Object} radarr - Radarr szolgáltatás beállításai.
+ * @property {Object} server - A szerver IP címét és portját tartalmazza.
+ * @property {Object} sonarr - Sonarr szolgáltatás beállításai.
+ * @property {Object} tautulli - Tautulli szolgáltatás beállításai.
+ */
 type Config = {
     excluded_lines: string[];
     plex: {

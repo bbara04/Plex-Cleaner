@@ -1,12 +1,12 @@
-from flask import Flask, jsonify, make_response, render_template
-from flask_socketio import SocketIO, emit, send
+from flask import Flask, jsonify, send_from_directory
+from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask import request
 import requests
 import json
 from reader import plex_reader, radarr_reader, sonarr_reader, tautilli_reader
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./frontend/public')
 socketio = SocketIO(app)
 CORS(app)
 
@@ -23,6 +23,16 @@ with open("config.json", "r") as f:
 def fileNameCrop(str):
         return str.split('/')[-1]
 
+# Serve React App
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and path.endswith(('js', 'css', 'html', 'png', 'jpg', 'jpeg', 'svg', 'ico', 'json')):
+        # Serve static files (React build files)
+        return send_from_directory(app.static_folder, path)
+    else:
+        # Fallback to React's index.html
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/config', methods = ["GET"])
 def get_config():
