@@ -48,28 +48,28 @@ def get_expired_media():
     exampleData = [
         {
             "title": "Inception",
-            "last_watched": "2024-12-01T20:30:00",
+            "last_watched": "0",
             "id": 1,
             "type": "movie",
             "checked": False
         },
         {
             "title": "The Matrix",
-            "last_watched": "2024-11-28T22:00:00",
+            "last_watched": "2",
             "id": 2,
             "type": "movie",
             "checked": False
         },
         {
-            "title": "Breaking Bad",
-            "last_watched": "2024-11-25T19:00:00",
+            "title": "Breaking Bad as afveiuc ejwcvipbj jbiwqacev",
+            "last_watched": "350",
             "id": 3,
             "type": "tv_series",
             "checked": False
         },
         {
             "title": "The Witcher",
-            "last_watched": "2024-11-20T21:30:00",
+            "last_watched": "2",
             "id": 4,
             "type": "tv_series",
             "checked": False
@@ -84,35 +84,35 @@ def get_all_media():
     exampleData = [
     {
         "title": "Inception",
-        "last_watched": "2024-12-01T20:30:00",
+        "last_watched": "2",
         "id": 1,
         "type": "movie",
         "checked": False
     },
     {
         "title": "The Matrix",
-        "last_watched": "2024-11-28T22:00:00",
+        "last_watched": "2",
         "id": 2,
         "type": "movie",
         "checked": False
     },
     {
         "title": "Breaking Bad",
-        "last_watched": "2024-11-25T19:00:00",
+        "last_watched": "2",
         "id": 3,
         "type": "tv_series",
         "checked": False
     },
     {
         "title": "The Witcher",
-        "last_watched": "2024-11-20T21:30:00",
+        "last_watched": "2",
         "id": 4,
         "type": "tv_series",
         "checked": False
     },
     {
         "title": "The Dark Knight",
-        "last_watched": "2024-11-18T18:45:00",
+        "last_watched": "2",
         "id": 5,
         "type": "movie",
         "checked": False

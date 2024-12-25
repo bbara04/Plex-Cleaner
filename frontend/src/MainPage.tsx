@@ -92,7 +92,7 @@ export function MainPage({ mediaPath }: MainPageProps) {
     const [visibleConfirmDialog, setVisibleConfirmDialog] = useState(false);
 
     return <MediaContextProvider medias={medias}>
-        <div class="m-4 mt-20" style="height: 85vh">
+        <div class="m-4 mt-20" style="height: 80vh">
             <Scrollbar>
                 <MediaPanel /> {/* A médiák megjelenítése */}
             </Scrollbar>
@@ -100,7 +100,7 @@ export function MainPage({ mediaPath }: MainPageProps) {
                 <ActionSelector /> {/* Az akció választó komponens */}
             </div>
             <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-800 text-red-400 rounded-2xl px-3">
-                <IconButton Icon={MdDeleteForever} size="40px" onClick={() => setVisibleConfirmDialog(true)} />
+                <IconButton Icon={MdDeleteForever} size="32px" onClick={() => setVisibleConfirmDialog(true)} />
             </div>
             {visibleConfirmDialog && <ConfirmDeleteDialog
                 onConfirm={() => {

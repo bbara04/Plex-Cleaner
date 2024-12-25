@@ -6,7 +6,7 @@ import requests
 import json
 from reader import plex_reader, radarr_reader, sonarr_reader, tautilli_reader
 
-app = Flask(__name__, static_folder='./frontend/public')
+app = Flask(__name__, static_folder='./frontend/dist')
 socketio = SocketIO(app)
 CORS(app)
 
@@ -90,10 +90,13 @@ def get_expired_media():
 
     return jsonify(sel_list)
 
+all_media = {}
+
 # Get all media that can be found in all of the libraries
 # It also combines the data from the Plex, Sonarr, Radarr and Tautulli libraries
 @app.route('/api/media/all', methods = ['GET'])
 def get_all_media():
+        global all_media
     
         tautulli_stats = tautilli_reader.readTautulli(config['server']['ip'], config['tautulli']['port'], config['tautulli']['api'])
         plex_stats = plex_reader.readPlex(config['server']['ip'], config['plex']['port'], config['plex']['api'])
@@ -113,34 +116,39 @@ def get_all_media():
                         for radarr in radarr_stats:
                             if fileNameCrop(radarr[2]) == fileNameCrop(plex[2]):
                                 sel_list.append({"title": radarr[1], "last_watched": tautulli[2], "id":radarr[0], "type": "show"})
-    
+
+        all_media = sel_list
         return jsonify(sel_list)
 
 
 # Delete media from the libraries
-@app.route('/api/media', methods = ["DELETE"])
-def delete_media():
-    data = request.get_json()
+@app.route('/api/media/<int:media_id>', methods=["DELETE"])
+def delete_media(media_id):
 
-    deletedMedia = []
-    failedtoDeleteMedia = []
+    media_type = None
 
-    for media in data:
-        if media[1] == "show":
-            response = requests.delete(f"http://{config['server']['ip']}:{config['sonarr']['port']}/api/v3/series/{media[0]}?deleteFiles=true&addImportListExclusion=false&apikey={config['sonarr']['api']}")
-        elif media[1] == "movie":
-            response = requests.delete(f"http://{config['server']['ip']}:{config['radarr']['port']}/api/v3/movie/{media[0]}?deleteFiles=true&addImportExclusion=false&apikey={config['radarr']['api']}")
+    print(all_media)
+    print(media_id)
 
-        if response.status_code == 200:
-            deletedMedia.append(media)
-        else:
-            failedtoDeleteMedia.append(media)
+    # Find the media in the all_media list
+    media_item = next((x for x in all_media if x['id'] == media_id), None)
 
-    returnValue = {"success": deletedMedia, "failed": failedtoDeleteMedia}
-    if (len(failedtoDeleteMedia) == 0):
-        return jsonify(returnValue), 200
+    if media_item:
+        media_type = media_item['type']
     else:
-        return jsonify(returnValue), 400
+        return jsonify({"error": "Media not found"}), 404
+
+    if media_type == "show":
+        response = requests.delete(f"http://{config['server']['ip']}:{config['sonarr']['port']}/api/v3/series/{media_id}?deleteFiles=true&addImportListExclusion=false&apikey={config['sonarr']['api']}")
+    elif media_type == "movie":
+        response = requests.delete(f"http://{config['server']['ip']}:{config['radarr']['port']}/api/v3/movie/{media_id}?deleteFiles=true&addImportExclusion=false&apikey={config['radarr']['api']}")
+
+    print(response)
+
+    if response.status_code == 200:
+        return jsonify(media_item['title']), 200
+    else:
+        return jsonify(media_item['title']), 400
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ export function ActionSelector() {
             class="bg-slate-800 p-3.5 rounded-full flex items-center justify-center"
             onClick={() => setOpen(!open)} // Kattintáskor megváltoztatja a panel állapotát
         >
-            <FaRegEdit size="40px" /> {/* Ikon a gombhoz */}
+            <FaRegEdit size="32px" /> {/* Ikon a gombhoz */}
         </div>
     );
 

@@ -1,3 +1,5 @@
+import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+
 /**
  * A ListElement komponens egy listaelem, amely tartalmaz egy jelölőnégyzetet, egy címet és opcionálisan további információkat.
  * A komponens kattintható, és a felhasználó interakciója esetén meghívódik az `onClick` callback.
@@ -9,15 +11,22 @@ export function ListElement({ title, additionalInfo, checked, onClick }: ListEle
 
     return (
         <div
-            class="flex items-center m-2 p-3 space-x-4 bg-slate-900 border-slate-700 border-4 rounded-md"
+            className={`flex items-center m-2 p-3 space-x-4 ${checked ? "bg-slate-800 border-slate-600" : "bg-slate-900 border-slate-700"} border-4 rounded-md`}
             onClick={() => onClick()} // A listaelem kattintására meghívódik az onClick függvény
         >
-            <div class="flex-none w-8">
-                {/* Jelölőnégyzet a listaelemhez */}
-                <input class="w-5 h-5" type="checkbox" checked={checked} />
+            <div className="flex items-center justify-center">
+                {checked ? <MdCheckBox size="28px" color="#cbd5e1" /> : <MdCheckBoxOutlineBlank size="28px" />} {/* A jelölőnégyzet megjelenítése */}
             </div>
-            <span class="flex-1 min-w-40 overflow-ellipsis">{title}</span> {/* A cím megjelenítése */}
-            <span class="flex-none w-fit">{additionalInfo}</span> {/* Opcionális további információk */}
+            <span className="flex-1 mp:text-sm sm:text-lg font-bold text-slate-300 items-center" 
+            style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+                display: '-webkit-box'
+              }}
+            >{title}</span> {/* A cím megjelenítése */}
+            <span className="flex-none w-fit mp:text-sm sm:text-lg font-bold text-slate-300 items-center">{additionalInfo}</span> {/* Opcionális további információk */}
         </div>
     );
 }

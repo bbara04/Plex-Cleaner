@@ -28,12 +28,6 @@ export function NavBar({ selectedView, openSettings, selectMediaView }: NavBarPr
             />
             <div class="flex justify-center items-center space-x-4">
                 <span
-                    class="mp:py-1 mp:px-2.5 sm:py-2 sm:px-5 bg-slate-600 text-slate-800 sm:text-lg font-bold rounded-lg"
-                    onClick={() => openSettings(false)}
-                >
-                    Home
-                </span>
-                <span
                     class={`mp:py-1 mp:px-2.5 sm:py-2 sm:px-5 sm:text-lg font-bold rounded-lg ${selectedView == "all" ? "bg-slate-800 text-slate-600" : "bg-slate-600 text-slate-800"}`}
                     onClick={() => selectMediaView("all")}
                 >

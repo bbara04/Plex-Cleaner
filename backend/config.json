@@ -6,7 +6,7 @@
     },
     "radarr": {
         "api": "c349f3b312484de7bb1799006f08a96a",
-        "delete_after_days": 20,
+        "delete_after_days": 30,
         "port": 7878
     },
     "server": {
@@ -15,7 +15,7 @@
     },
     "sonarr": {
         "api": "241b9ffdac3741a0a693d6a3fe224e46",
-        "delete_after_days": 45,
+        "delete_after_days": 30,
         "port": 8989
     },
     "tautulli": {

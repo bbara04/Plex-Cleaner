@@ -98,7 +98,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
 
     return (
         <div>
-            <Scrollbar style={{ height: '92vh' }}>
+            <Scrollbar style={{ height: '90vh' }}>
                 <div className="flex justify-center m-8">
                     <div className="space-y-4 mt-12 min-w-fit max-w-fit min-h-fit">
                         <TextInputField label="Ip address" value={config.current.server.ip} configPath="server.ip" onChange={handleConfigChange} placeholder="localhost" />
@@ -112,11 +112,11 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                     </div>
                 </div>
             </Scrollbar>
-            <div class="fixed top-20 right-6 bg-slate-900 rounded-md">
-                <IconButton Icon={IoMdClose} size={"32px"} onClick={() => onClose()}></IconButton>
+            <div class="fixed top-16 right-2 bg-slate-800 rounded-md">
+                <IconButton Icon={IoMdClose} size={"24px"} onClick={() => onClose()}></IconButton>
             </div>
             <div class="fixed bottom-4 left-1/2 transition -translate-x-1/2 bg-slate-800 rounded-lg">
-                <IconButton Icon={FaSave} size={"32px"} onClick={() => saveConfig()} text="Save"></IconButton>
+                <IconButton Icon={FaSave} size={"28px"} onClick={() => saveConfig()} text="Save"></IconButton>
             </div>
             <ToastContainer
                 position="top-center"
