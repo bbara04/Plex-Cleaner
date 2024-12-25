@@ -1,7 +1,5 @@
 {
-    "excluded_lines": [
-        "anime"
-    ],
+    "excluded_lines": [],
     "plex": {
         "api": "7gnzjDLveU6htYPK2geq",
         "port": 32400
