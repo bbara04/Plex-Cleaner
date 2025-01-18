@@ -86,7 +86,7 @@ def get_expired_media():
                 elif tiltott == False and plex[3] == "movie":
                     for radarr in radarr_stats:
                         if fileNameCrop(radarr[2]) == fileNameCrop(plex[2]) and tautulli[2] > config['radarr']["delete_after_days"]:
-                            sel_list.append({"title": radarr[1], "last_watched": tautulli[2], "id":radarr[0], "type": "show"})
+                            sel_list.append({"title": radarr[1], "last_watched": tautulli[2], "id":radarr[0], "type": "movie"})
 
     return jsonify(sel_list)
 
@@ -115,7 +115,7 @@ def get_all_media():
                     elif plex[3] == "movie":
                         for radarr in radarr_stats:
                             if fileNameCrop(radarr[2]) == fileNameCrop(plex[2]):
-                                sel_list.append({"title": radarr[1], "last_watched": tautulli[2], "id":radarr[0], "type": "show"})
+                                sel_list.append({"title": radarr[1], "last_watched": tautulli[2], "id":radarr[0], "type": "movie"})
 
         all_media = sel_list
         return jsonify(sel_list)
@@ -137,6 +137,10 @@ def delete_media(media_id):
         media_type = media_item['type']
     else:
         return jsonify({"error": "Media not found"}), 404
+    
+    print("media type:" + media_type)
+
+    print(f"http://{config['server']['ip']}:{config['sonarr']['port']}/api/v3/series/{media_id}?deleteFiles=true&addImportListExclusion=false&apikey={config['sonarr']['api']}")
 
     if media_type == "show":
         response = requests.delete(f"http://{config['server']['ip']}:{config['sonarr']['port']}/api/v3/series/{media_id}?deleteFiles=true&addImportListExclusion=false&apikey={config['sonarr']['api']}")

@@ -108,19 +108,18 @@ export function MainPage({ mediaPath }: MainPageProps) {
                     setVisibleConfirmDialog(false);
                 }}
                 onHide={() => setVisibleConfirmDialog(false)} />}
-
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                theme="light"
+                transition={Bounce}
+            />
         </div>
-        <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            draggable
-            theme="light"
-            transition={Bounce}
-        />
     </MediaContextProvider>;
 }
 

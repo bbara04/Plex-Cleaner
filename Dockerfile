@@ -11,7 +11,7 @@ COPY backend/ /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy React build files into the static folder of Flask
-COPY react_app/build/ /app/static/
+COPY react_app/dist/ /app/static/
 
 # Expose the application's port
 EXPOSE 8000
