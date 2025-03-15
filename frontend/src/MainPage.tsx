@@ -27,7 +27,7 @@ export function MainPage({ mediaPath }: MainPageProps) {
 
     const medias = useRef<Media[]>([]); // A médiák listája, amit a komponens használ
     const [loading, setLoading] = useState(true); // Betöltés állapota
-    const [error, setError] = useState(""); // Hibaüzenet
+    const [error, setError] = useState(undefined); // Hibaüzenet
 
     useEffect(() => {
         // A médiák lekérése és tárolása
@@ -67,7 +67,7 @@ export function MainPage({ mediaPath }: MainPageProps) {
 
     if (error) {
         return <div class="overflow-y-hidden h-screen">
-            <WaitingPanel message="Something went wrong..." color="#400709" />
+            <WaitingPanel message="Something went wrong..." errormsg={error} color="#400709" />
         </div>;
     }
 
