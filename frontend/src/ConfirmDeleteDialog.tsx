@@ -1,5 +1,5 @@
-import { useMediaContext } from './MediaContext';
 import { Scrollbar } from 'react-scrollbars-custom';
+import { useMediaContext } from './MediaContext';
 
 /**
  * A ConfirmDeleteDialog komponens egy megerősítő párbeszédpanel, amely az elem törlését kéri megerősítés céljából.
@@ -36,16 +36,16 @@ export function ConfirmDeleteDialog({ onConfirm, onHide }: ConfirmDeleteDialogPr
             {/* A megerősítő és törlés gombok */}
             <div class="flex justify-evenly pb-0 space-x-4">
                 <button
-                    class="p-2 w-24 bg-slate-800 text-green-500 font-bold rounded-md"
-                    onClick={() => onConfirm()}  // A törlés megerősítése
-                >
-                    Confirm
-                </button>
-                <button
                     class="p-2 w-24 bg-slate-800 text-red-500 font-bold rounded-md"
                     onClick={() => onHide()}  // A művelet törlése
                 >
                     Cancel
+                </button>
+                <button
+                    class="p-2 w-24 bg-slate-800 text-green-500 font-bold rounded-md"
+                    onClick={() => onConfirm()}  // A törlés megerősítése
+                >
+                    Confirm
                 </button>
             </div>
         </div>

@@ -1,16 +1,15 @@
-import { ActionSelector } from "./ActionSelector";
-import { IconButton } from "./IconButton";
-import { MdDeleteForever } from "react-icons/md";
-import { Media } from ".";
-import { MediaPanel } from "./MediaPanel";
-import { WaitingPanel } from "./WaitingPanel";
 import axios from "axios";
 import { useEffect, useRef, useState } from "preact/hooks";
-import { MediaContextProvider } from "./MediaContext";
-import { ConfirmDeleteDialog } from "./ConfirmDeleteDialog";
+import { MdDeleteForever } from "react-icons/md";
 import Scrollbar from "react-scrollbars-custom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-import { forceReRenderMedia } from "./MediaPanel";
+import { Media } from ".";
+import { ActionSelector } from "./ActionSelector";
+import { ConfirmDeleteDialog } from "./ConfirmDeleteDialog";
+import { IconButton } from "./IconButton";
+import { MediaContextProvider } from "./MediaContext";
+import { forceReRenderMedia, MediaPanel } from "./MediaPanel";
+import { WaitingPanel } from "./WaitingPanel";
 
 // Változó a médiák lekéréséhez
 let fetchMedia: () => void;
@@ -78,14 +77,23 @@ export function MainPage({ mediaPath }: MainPageProps) {
      */
     function handleDelete() {
         const selectedMedias = medias.current.filter(media => media.checked);
-        selectedMedias.forEach(media => {
-            // A média törlését itt hívhatjuk meg a szerver felé
-            axios.delete(`/api/media/${media.id}`)
-                .then(() => medias.current = medias.current.filter(m => m.id !== media.id))
-                .catch(error => setError(error.message));
-            toast.success(`Deleted ${media.title}`); // A törlés sikeressége esetén értesítés
+        const deleteMediaDTO = selectedMedias.filter(media => media.checked).map(media => {
+            return {
+                id: media.id,
+                title: media.title,
+                type: media.type,
+            }
+        })
+        axios.delete(`/api/media`, {
+            data: deleteMediaDTO
+        })
+        .then((response) => {
+            toast.success(`Deleted selected media`); // A törlés sikeressége esetén értesítés
+            refreshMedia(); // A média lista frissítése
+        })
+        .catch(error => {
+            setError(error.message);
         });
-        refreshMedia(); // A média lista frissítése
     }
 
     // A törlés megerősítő dialógus láthatósága

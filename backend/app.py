@@ -127,28 +127,30 @@ def get_all_media_service():
                             })
     return sel_list
 
-def delete_media_service(media_id, media_list):
+def delete_media_service(medias, media_list):
     """
-    Törli a megadott media_id-jű médiát a megfelelő szolgáltatásból.
-    Visszaadja a törölt elem címét, vagy hibaüzenetet.
+    Törli a megadott media_id-jű médiákat a megfelelő szolgáltatásból.
+    Visszaadja a törölt elemeket címét, vagy hibaüzenetet.
     """
-    media_item = next((x for x in media_list if x['id'] == media_id), None)
-    if not media_item:
-        return None, "Media not found"
-    media_type = media_item['type']
-    if media_type == "show":
-        url = f"http://{config['server']['ip']}:{config['sonarr']['port']}" \
-              f"/api/v3/series/{media_id}?deleteFiles=true&addImportListExclusion=false" \
-              f"&apikey={config['sonarr']['api']}"
-    elif media_type == "movie":
-        url = f"http://{config['server']['ip']}:{config['radarr']['port']}" \
-              f"/api/v3/movie/{media_id}?deleteFiles=true&addImportExclusion=false" \
-              f"&apikey={config['radarr']['api']}"
-    response = requests.delete(url)
-    if response.status_code == 200:
-        return media_item['title'], None
-    else:
-        return media_item['title'], "Error deleting media"
+    deleted_medias = []
+    errormsg = ""
+
+    for media in medias:
+        if media['type'] == "show":
+            url = f"http://{config['server']['ip']}:{config['sonarr']['port']}" \
+                f"/api/v3/series/{media['id']}?deleteFiles=true&addImportListExclusion=false" \
+                f"&apikey={config['sonarr']['api']}"
+        elif media['type'] == "movie":
+            url = f"http://{config['server']['ip']}:{config['radarr']['port']}" \
+                f"/api/v3/movie/{media['id']}?deleteFiles=true&addImportExclusion=false" \
+                f"&apikey={config['radarr']['api']}"
+        response = requests.delete(url)
+        if response.status_code == 200:
+            deleted_medias.append(media['id'])
+        else:
+            errormsg += f"Hiba történt a(z) {media['title']} törlése közben: {response.text}\n"
+
+    return deleted_medias, errormsg
 
 # =========================
 # CONTROLLER réteg: Route-ok, melyek meghívják a service függvényeket
@@ -186,12 +188,16 @@ def get_all_media():
     all_media = get_all_media_service()
     return jsonify(all_media)
 
-@app.route('/api/media/<int:media_id>', methods=["DELETE"])
-def delete_media(media_id):
+@app.route('/api/media', methods=["DELETE"])
+def delete_media():
     global all_media
-    title, error = delete_media_service(media_id, all_media)
-    if error:
-        return jsonify({"error": error}), 400
+    medias_to_delete = request.get_json()
+    title, error = delete_media_service(medias_to_delete, all_media)
+    if error != "":
+        return jsonify({
+            "title": title,
+            "error": error
+        }), 400
     return jsonify(title), 200
 
 if __name__ == "__main__":
